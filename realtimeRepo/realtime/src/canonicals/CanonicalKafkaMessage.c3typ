@@ -1,0 +1,7 @@
+@dataLoad(chunkSize=5000, commitSize=100)
+type CanonicalKafkaMessage mixes Canonical<CanonicalKafkaMessage> {
+
+  id: string
+
+  time: string
+}

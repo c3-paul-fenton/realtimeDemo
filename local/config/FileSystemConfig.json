@@ -1,0 +1,32 @@
+{
+  "default": "c3fs",
+  "c3fs": {
+    "enabled": true,
+    "mounts": {
+      "ARTIFACT": "file:///usr/local/share/c3/fs/packagemanager",
+      "DATA_LOAD": "file:///usr/local/share/c3/fs/dl/${tenant}/${tag}",
+      "DEFAULT": "file:///usr/local/share/c3/fs/${tenant}/${tag}",
+      "ETL": "file:///usr/local/share/c3/fs/etl/${tenant}/${tag}"
+    }
+  },
+
+  "file": {
+    "enabled": false
+  },
+
+  "s3": {
+    "enabled": false
+  },
+
+  "azure": {
+    "enabled": false
+  },
+
+  "hdfs": {
+    "enabled": false
+  },
+
+  "github": {
+    "enabled": false
+  }
+}

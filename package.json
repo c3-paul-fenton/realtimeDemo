@@ -1,0 +1,14 @@
+{
+  "name": "realtime",
+  "author": "Solutions Engineering",
+  "version": "1.0.0",
+  "description": "NPM package for realtime",
+  "main": null,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "curl": "(cd realtimeRepo/realtime ; curlAll '*.csv' http://localhost:8080/import/1/realtime/dev '')",
+    "prov": "c3 prov tag -u BA -p BA -t realtime:dev -e http://localhost:8080/ -c realtime -E -r",
+    "up": "docker-compose -f local/docker-compose.yml up --detach",
+    "down": "docker-compose -f local/docker-compose.yml down"
+  }
+}

@@ -1,0 +1,66 @@
+<server>
+  <component>
+    <name>c3.engine.database.cassandra.CassandraComponent</name>
+    <cassandraConfiguration>
+      <perTenantKeyspace>false</perTenantKeyspace>
+      <portNumber>9160</portNumber>
+      <hostPrefix>local</hostPrefix>
+      <knownNode>cassandra</knownNode>
+    </cassandraConfiguration>
+  </component>
+  <component>
+    <name>c3.engine.database.DatabaseEngine</name>
+    <dbConfig>
+      <perTenantDatastore>false</perTenantDatastore>
+      <tenantDatastore>
+        <tenant>c3</tenant>
+        <datastore>c3</datastore>
+      </tenantDatastore>
+      <tenantDatastore>
+        <tenant>reference</tenant>
+        <datastore>c3</datastore>
+      </tenantDatastore>
+      <tenantDatastore>
+        <tenant>*</tenant>
+        <datastore>tenants</datastore>
+      </tenantDatastore>
+      <datastore>
+        <name>tenants</name>
+        <kind>postgres</kind>
+        <server>postgres</server>
+        <database>c32</database>
+        <portNumber>5432</portNumber>
+        <user>c32</user>
+        <password>c3postgres</password>
+      </datastore>
+      <datastore>
+        <name>c3</name>
+        <kind>postgres</kind>
+        <server>postgres</server>
+        <database>c3</database>
+        <portNumber>5432</portNumber>
+        <user>c3</user>
+        <role>c3</role>
+        <password>c3postgres</password>
+      </datastore>
+      <datastore>
+        <name>secondaryPostgres</name>
+        <kind>postgres</kind>
+        <server>postgres</server>
+        <database>c3</database>
+        <portNumber>5432</portNumber>
+        <user>c3</user>
+        <password>c3postgres</password>
+      </datastore>
+    </dbConfig>
+  </component>
+  <!-- Uncomment this section to add your Splunk credentials
+  <component>
+    <name>c3.server.engine.splunk.SplunkEngine</name>
+    <splunkUsageConfig>
+      <username>[Splunk Username]</username>
+      <password>[Splunk Password]</password>
+    </splunkUsageConfig>
+  </component>
+  -->
+</server>

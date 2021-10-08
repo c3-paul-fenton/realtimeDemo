@@ -1,0 +1,75 @@
+version: '3.7'
+services:
+  cassandra:
+    hostname: cassandra
+    container_name: "${PREFIX}-cass"
+    image: locked-registry.c3.ai/cassandra:3.11.10.4
+    user: "0:0"
+    ports:
+    - '9160:9160'
+    - '7000:7000'
+    - '7001:7001'
+    - '7199:7199'
+    - '9042:9042'
+    - '7070:7070'
+    restart: always
+    volumes:
+    - ./volume/cassandra_data:/c3/cassandra/data
+  postgres:
+    image: locked-registry.c3.ai/postgres:9.6.21.2
+    hostname: postgres
+    container_name: "${PREFIX}-pg"
+    environment:
+      ALLOW_IP_RANGE: '0.0.0.0/0'
+      POSTGRESQL_USER: 'postgres'
+      POSTGRESQL_PASSWORD: 'c3postgres'
+    ports:
+    - 5432:5432
+    restart: always
+    volumes:
+    - ./volume/postgresdata:/c3/postgresql/data
+  c3server:
+    image: "locked-registry.c3.ai/c3server/noplugins/compose:${C3_SERVER_VERSION}"
+    hostname: c3server.local
+    container_name: "${PREFIX}-c3server"
+    user: "0:0"
+    depends_on:
+    - cassandra
+    - postgres
+    ports:
+    - 8080:8080
+    - 9000:9000
+    links:
+    - cassandra
+    - postgres
+    volumes:
+    - ./volume/c3-filesys:/usr/local/share/c3/fs
+    - ./config/server-config.xml.custom:/usr/local/share/c3/server/conf/server-config.xml.custom
+    - ./config/FileSystemConfig.json:/usr/local/share/c3/server/config/_/FileSystemConfig/FileSystemConfig.json
+    - ./config/KvStoreConfig-u.json:/usr/local/share/c3/server/config/_/KvStoreConfig/KvStoreConfig.json
+    - ./config/KvStoreConfig-p.json:/usr/local/share/c3/server/vault/_/KvStoreConfig/KvStoreConfig.json
+    environment:
+      VM_MIN_MEM: '16G'
+      VM_MAX_MEM: '32G'
+    restart: always
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - 22181:2181
+  
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    depends_on:
+      - zookeeper
+    ports:
+      - 29092:29092
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://kafka:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1but

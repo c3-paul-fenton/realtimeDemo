@@ -1,0 +1,19 @@
+# C3 Project
+local/volume/
+local/prov/
+**/data/**
+**/curl_output.txt
+
+# Python
+*.pyc
+.ipynb_checkpoints
+
+# Mac files
+.DS_Store
+
+# node files
+node_modules
+package-lock.json
+
+# vscode
+**/.vscode/*

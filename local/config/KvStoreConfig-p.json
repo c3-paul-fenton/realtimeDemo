@@ -1,0 +1,6 @@
+{
+    "cassandra" : 
+    {
+        "password" : "cassandra"
+    }
+}
