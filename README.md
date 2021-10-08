@@ -1,6 +1,6 @@
 # realtime Repository
 
-Follow this README to get setup to run `realtime`
+Demonstrates a basic C3 / Kafka integration for the purpose of demoing realtime streaming capabilities.
 
 ## Prerequisites
 
@@ -13,38 +13,48 @@ Follow this README to get setup to run `realtime`
 
 ## First time local setup
 
-```
+```zsh
 npm run up
 npm run prov
 npm run curl
 ```
 
 ## Shut down
-```
+```zsh
 npm run down
 ```
 
-## Start Kafka
+## Use C3 Console to operate the queue
 
-See (Apache Quickstart)[http://kafka.apache.org/quickstart]
+```js
+// configure kafka
+var topicName = "realtime"
+var creds = ApacheCredentials.make({endpoint:"kafka:9092"});
+var topic = ApacheKafkaTopic.fromResourceName(topicName);
+c.setConfigValue("resourceName",topicName); 
+topic.setCredentialsForResourceName(topicName, creds);
 
-```
-cd kafka_2.13-3.0.0
-bin/zookeeper-server-start.sh config/zookeeper.properties
-bin/kafka-server-start.sh config/server.properties
-```
+// config inbound queue handler
+var inbound = CanonicalInboundQueue.make().config();
+inbound.setConfigValue("cloudMessageBrokerName","realtime");
+inbound.setConfigValue("cloudMessageBrokerType","ApacheKafkaTopic");
+inbound.setConfigValue("batchSize",1);
+inbound.setConfigValue("timeoutMillis", 10000); 
+CloudMessageDispatcherConfig.clearCache(); 
+CanonicalInboundQueue.register();
 
-Create kafka topic:
-```
-bin/kafka-topics.sh --create --topic realtime --bootstrap-server localhost:29092 --partitions 1 --replication-factor 1
-```
+// config inbound queue producer
+var outbound = CanonicalOutboundQueue.make().config();
+outbound.setConfigValue("cloudMessageBrokerName","realtime" );
+outbound.setConfigValue("cloudMessageBrokerType","ApacheKafkaTopic" );
+CloudMessageDispatcherConfig.clearCache();
 
-Write messages to topic:
-```
-bin/kafka-console-producer.sh --topic realtime --bootstrap-server localhost:29092
-```
+// send a test message
+CanonicalOutboundQueue.sendBatch([
+    CanonicalKafkaMessage.make({
+        id: "t1",
+        time: "2021-01-01"
+    })
+]);
 
-Read messages:
-```
-bin/kafka-console-consumer.sh --topic realtime --from-beginning --bootstrap-server localhost:29092
 ```
