@@ -24,7 +24,7 @@ npm run curl
 npm run down
 ```
 
-## Use C3 Console to operate the queue
+## Use the Console to Configure C3 for Kafka
 
 ```js
 // configure kafka
@@ -43,7 +43,7 @@ inbound.setConfigValue("timeoutMillis", 10000);
 CloudMessageDispatcherConfig.clearCache(); 
 CanonicalInboundQueue.register();
 
-// config inbound queue producer
+// config outbound queue producer
 var outbound = CanonicalOutboundQueue.make().config();
 outbound.setConfigValue("cloudMessageBrokerName","realtime" );
 outbound.setConfigValue("cloudMessageBrokerType","ApacheKafkaTopic" );
