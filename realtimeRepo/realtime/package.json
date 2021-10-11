@@ -2,5 +2,5 @@
   "name" : "realtime",
   "description" : "Package for realtime",
   "author" : "paul.fenton@c3.ai",
-  "dependencies" : [ "standardDependencies" ]
+  "dependencies" : ["uiInfrastructure", "uiInfrastructureReact"]
 }

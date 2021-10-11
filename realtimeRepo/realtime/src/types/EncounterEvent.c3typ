@@ -1,0 +1,14 @@
+@db(compactType=true,
+    datastore='cassandra',
+    partitionKeyField='parent',
+    persistenceOrder='start',
+    persistDuplicates=false,
+    shortId=true,
+    shortIdReservationRange=1000000)
+entity type EncounterEvent mixes TimedDataPoint<Encounter> schema name 'ENCNTR_EVNT' {
+    persisted: datetime
+    rate: double
+    queueLength: double
+    latency: double stored calc "(toMillis(persisted) - toMillis(start))/1000"
+
+}

@@ -1,0 +1,3 @@
+entity type Facility mixes MetricEvaluatable schema name "FCLTY" {
+    encounters: [Encounter](facility)
+}

@@ -1,0 +1,4 @@
+entity type Encounter mixes TimedDataHeader<EncounterEvent> schema name "ENCNTR" {
+    id: ~
+    facility: !Facility
+}

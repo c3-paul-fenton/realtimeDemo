@@ -1,5 +1,5 @@
 # C3 Project
-local/volume/
+local/volume/**
 local/prov/
 **/data/**
 **/curl_output.txt

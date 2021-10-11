@@ -1,4 +1,0 @@
-entity type PersistedMessage schema name "PRSSTD_MSSG" {
-    id: ~
-    time: datetime
-}

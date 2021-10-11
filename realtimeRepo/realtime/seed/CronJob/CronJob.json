@@ -1,0 +1,44 @@
+[
+  {
+      "id" : "dispatch-kafka",
+      "name" : "DispatchMessages",
+      "description" : "",
+      "action" : {
+        "typeName" : "DispatchKafkaMessages",
+        "actionName" : "dispatchMessages"
+      },
+      "inputs": {
+        "spec" : {
+        }
+      },
+      "concurrent": false,
+      "inactive": true,
+      "scheduleDef" : {
+        "startTime": null,
+        "endTime": null,
+        "cronExpression" : "0 * * ? * *"
+      },
+      "runAsUser": { "id": "BA" }
+  },
+  {
+    "id" : "increase-rate",
+    "name" : "IncreaseRate",
+    "description" : "",
+    "action" : {
+      "typeName" : "RateState",
+      "actionName" : "increaseRate"
+    },
+    "inputs": {
+      "spec" : {
+      }
+    },
+    "concurrent": false,
+    "inactive": true,
+    "scheduleDef" : {
+      "startTime": null,
+      "endTime": null,
+      "cronExpression" : "0 */10 * ? * *"
+    },
+    "runAsUser": { "id": "BA" }
+}
+]
